@@ -64,7 +64,7 @@ export const SignUp: React.FC = () => {
                   _hover={{
                     bg: "blue.500",
                   }}
-                  onClick={() => navigate("/home")}
+                  onClick={() => navigate("/profile")}
                 >
                   Cadastrar
                 </Button>

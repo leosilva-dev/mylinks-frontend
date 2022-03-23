@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { Home, UserProfile, SignIn, SignUp, LinksSetup } from "../pages";
 import { ROLES } from "../shared/auth/roles";
 import { PrivateRoute } from "./PrivateRoute";
@@ -21,7 +21,7 @@ export const AppRoutes: React.FC = () => {
         element={<PrivateRoute roles={[ROLES.USER]} component={LinksSetup} />}
       />
 
-      <Route path="*" element={<Home />} />
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 };
