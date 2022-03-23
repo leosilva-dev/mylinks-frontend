@@ -1,6 +1,6 @@
 import React from "react";
 
-import Testimonials from "./Testimonials";
+import { Community } from "./Community";
 import { Features } from "./Features";
 import { Footer } from "./Footer";
 import { CallToAction } from "./CallToAction";
@@ -10,7 +10,7 @@ export const Home: React.FC = () => {
     <>
       <CallToAction />
       <Features />
-      <Testimonials />
+      <Community />
       <Footer />
     </>
   );

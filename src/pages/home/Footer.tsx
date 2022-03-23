@@ -8,8 +8,10 @@ import {
   VisuallyHidden,
   Link,
   Text,
+  Icon,
 } from "@chakra-ui/react";
 import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
+import { HiOutlineLightningBolt } from "react-icons/hi";
 
 const Logo = (props: any) => {
   return (
@@ -77,13 +79,29 @@ export const Footer: React.FC = () => {
         justify={"center"}
         align={"center"}
       >
-        <Logo />
-        <Stack direction={"row"} spacing={6}>
+        <Text
+          color={"green.400"}
+          fontFamily={"monospace"}
+          fontSize={{ base: "large", sm: "large", md: "large" }}
+          _hover={{
+            color: "green.500",
+            transform: "translateY(-2px)",
+            textDecoration: "none",
+          }}
+        >
+          <Link href={"#"} textDecoration={"none"}>
+            <Icon as={HiOutlineLightningBolt} />
+            MyLinks
+          </Link>
+        </Text>
+
+        {/* <Logo /> */}
+        {/* <Stack direction={"row"} spacing={6}>
           <Link href={"#"}>Home</Link>
           <Link href={"#"}>About</Link>
           <Link href={"#"}>Blog</Link>
           <Link href={"#"}>Contact</Link>
-        </Stack>
+        </Stack> */}
       </Container>
 
       <Box
@@ -100,7 +118,7 @@ export const Footer: React.FC = () => {
           justify={{ base: "center", md: "space-between" }}
           align={{ base: "center", md: "center" }}
         >
-          <Text>© 2020 Chakra Templates. All rights reserved</Text>
+          <Text>© 2022 MyLinks Inc. All rights reserved</Text>
           <Stack direction={"row"} spacing={6}>
             <SocialButton label={"Twitter"} href={"#"}>
               <FaTwitter />
