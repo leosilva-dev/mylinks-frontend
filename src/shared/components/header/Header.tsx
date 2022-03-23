@@ -14,6 +14,8 @@ import {
   useColorMode,
   HStack,
   IconButton,
+  Icon,
+  Text,
 } from "@chakra-ui/react";
 import {
   ChevronDownIcon,
@@ -22,15 +24,14 @@ import {
   MoonIcon,
   SunIcon,
 } from "@chakra-ui/icons";
+import { HiOutlineLightningBolt } from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
 
 interface IMenuLinks {
   name: string;
   route: string;
 }
-const MenuLinks: IMenuLinks[] = [
-  { name: "Home", route: "/home" },
-  { name: "Perfil", route: "/profile" },
-];
+const MenuLinks: IMenuLinks[] = [{ name: "Perfil", route: "/profile" }];
 
 const NavLink = (menulink: IMenuLinks) => {
   return (
@@ -52,6 +53,7 @@ const NavLink = (menulink: IMenuLinks) => {
 };
 
 export const Header: React.FC = () => {
+  const navigate = useNavigate();
   const isAuthenticated = true; /* Refactor: get value from userContext */
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -76,9 +78,19 @@ export const Header: React.FC = () => {
                 color: useColorModeValue("primary", "primary"),
               }}
             >
-              <Box fontWeight={"bold"} fontSize={18} fontFamily={"monospace"}>
-                MyLinks
-              </Box>
+              <Text
+                color={"green.400"}
+                fontFamily={"monospace"}
+                fontSize={"large"}
+                _hover={{
+                  color: "green.500",
+                  transform: "translateY(-2px)",
+                  cursor: "pointer",
+                }}
+              >
+                <Icon as={HiOutlineLightningBolt} />
+                MyLinks <br />
+              </Text>
             </Link>
             <HStack
               as={"nav"}
@@ -127,7 +139,24 @@ export const Header: React.FC = () => {
                   <MenuItem>Sair</MenuItem>
                 </MenuList>
               </Menu>
-            ) : null}
+            ) : (
+              <Button
+                variant={"Link"}
+                bg={"primary"}
+                size={"sm"}
+                mr={4}
+                color={useColorModeValue("primary", "primary")}
+                _hover={{
+                  textDecoration: "none",
+                  bg: useColorModeValue("primary", "primary"),
+                  borderColor: "primary",
+                  color: useColorModeValue("primary", "primary"),
+                }}
+                onClick={() => navigate("/entrar")}
+              >
+                Entrar
+              </Button>
+            )}
           </Flex>
         </Flex>
 
