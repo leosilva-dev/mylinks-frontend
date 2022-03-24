@@ -1,4 +1,4 @@
-import { IRequestResult } from "../../interfaces/IRequestResult";
+import { IRequestResult } from "../../../interfaces/IRequestResult";
 
 export interface IUser{
     id:string;

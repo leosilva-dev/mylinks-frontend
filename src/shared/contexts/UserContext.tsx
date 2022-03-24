@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useState } from "react";
-import { IUser, IUserSingUp, userService } from "../services/user/User";
+import { IUser, IUserSingUp, userService } from "../services/api/user/User";
 
 interface IUserContextData {
   user: IUser;
