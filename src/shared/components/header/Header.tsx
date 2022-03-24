@@ -26,6 +26,7 @@ import {
 } from "@chakra-ui/icons";
 import { HiOutlineLightningBolt } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
+import { useUserContext } from "../../hooks/useUserContext";
 
 interface IMenuLinks {
   name: string;
@@ -54,9 +55,11 @@ const NavLink = (menulink: IMenuLinks) => {
 
 export const Header: React.FC = () => {
   const navigate = useNavigate();
-  const isAuthenticated = true; /* Refactor: get value from userContext */
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const { authenticated, handleLogout } = useUserContext();
+
   return (
     <>
       <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
@@ -97,7 +100,7 @@ export const Header: React.FC = () => {
               spacing={4}
               display={{ base: "none", md: "flex" }}
             >
-              {isAuthenticated
+              {authenticated
                 ? MenuLinks.map((link) => (
                     <NavLink
                       key={link.name}
@@ -112,7 +115,7 @@ export const Header: React.FC = () => {
             <Button onClick={toggleColorMode}>
               {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
             </Button>
-            {isAuthenticated ? (
+            {authenticated ? (
               <Menu>
                 <MenuButton>
                   <Button
@@ -133,10 +136,11 @@ export const Header: React.FC = () => {
                   </Button>
                 </MenuButton>
                 <MenuList>
-                  <MenuItem>Preferências</MenuItem>
-                  <MenuItem>Perfil</MenuItem>
+                  <MenuItem onClick={() => navigate("/profile")}>
+                    Perfil
+                  </MenuItem>
                   <MenuDivider />
-                  <MenuItem>Sair</MenuItem>
+                  <MenuItem onClick={handleLogout}>Sair</MenuItem>
                 </MenuList>
               </Menu>
             ) : (
