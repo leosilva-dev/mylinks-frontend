@@ -7,21 +7,17 @@ export interface IUser{
     lastName: string;
     email: string;
     links: string[];
-}
-
-export interface IUserSingUp{
-    username: string;
-    firstName: string;
-    lastName: string;
-    email: string;
+    token: string
     password:string;
 }
+
+
 
 const signIn = (email: string, password: string): Promise<IRequestResult<IUser>> => {
     return new Promise<IRequestResult>((resolve, reject) => {})
 }
 
-const signUp = (user: IUserSingUp): Promise<IRequestResult<IUser>> => {
+const signUp = (user: IUser): Promise<IRequestResult<IUser>> => {
     return new Promise<IRequestResult>((resolve, reject) => {})
 }
 

@@ -1,12 +1,14 @@
-import React, { createContext, useCallback, useState } from "react";
-import { IUser, IUserSingUp, userService } from "../services/api/user/User";
+import React, { createContext, useCallback, useEffect, useState } from "react";
+import { IUser, userService } from "../services/api/user/User";
+import { Api } from "../services/axios-config/AxiosConfig";
 
 interface IUserContextData {
   user: IUser;
-  isAuth: boolean;
-  signIn: (email: string, password: string) => void;
-  signUp: (user: IUserSingUp) => void;
-  signOut: () => void;
+  authenticated: boolean;
+  isLoading: boolean;
+  handleLogin: (email: string, password: string) => void;
+  handleLogout: () => void;
+  handleSignUp: (user: IUser) => void;
 }
 export const UserContext = createContext<IUserContextData>(
   {} as IUserContextData
@@ -14,41 +16,61 @@ export const UserContext = createContext<IUserContextData>(
 
 export const UserProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<IUser>({} as IUser);
-  const [isAuth, setIsAuth] = useState(false);
+  const [authenticated, setAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const signIn = useCallback(async (email: string, password: string) => {
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      Api.defaults.headers.common["Authorization"] = `Bearer ${JSON.parse(
+        token
+      )}`;
+      setAuthenticated(true);
+    }
+
+    setIsLoading(false);
+  }, []);
+
+  const handleLogin = useCallback(async (email: string, password: string) => {
     const response = await userService.signIn(email, password);
     if (response.success) {
+      localStorage.setItem("token", JSON.stringify(response.data.token));
+      Api.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${response.data.token}`;
       setUser(response.data);
-      setIsAuth(true);
+      setAuthenticated(true);
     } else {
       console.log(response.messages?.join(",\n"));
     }
   }, []);
 
-  const signUp = useCallback(async (user: IUserSingUp) => {
+  const handleLogout = useCallback(async () => {
+    setAuthenticated(false);
+    localStorage.removeItem("token");
+    Api.defaults.headers.common["Authorization"] = "";
+    setUser({} as IUser);
+  }, []);
+
+  const handleSignUp = useCallback(async (user: IUser) => {
     const response = await userService.signUp(user);
     if (response.success) {
-      setUser(response.data);
-      setIsAuth(true);
+      handleLogin(response.data.email, response.data.password);
     } else {
       console.log(response.messages?.join(",\n"));
     }
-  }, []);
-
-  const signOut = useCallback(async () => {
-    setIsAuth(false);
-    setUser({} as IUser);
   }, []);
 
   return (
     <UserContext.Provider
       value={{
         user,
-        isAuth,
-        signIn,
-        signUp,
-        signOut,
+        authenticated,
+        isLoading,
+        handleLogin,
+        handleLogout,
+        handleSignUp,
       }}
     >
       {children}
