@@ -1,124 +1,103 @@
+import React from 'react';
 import {
   Heading,
-  Avatar,
   Box,
-  Center,
-  Text,
   Stack,
-  Button,
-  Link,
-  Badge,
   useColorModeValue,
   HStack,
-  AvatarBadge,
-  IconButton,
-} from "@chakra-ui/react";
-import { SmallCloseIcon } from "@chakra-ui/icons";
+  FormControl,
+  FormLabel,
+  Input,
+  Textarea,
+  InputGroup,
+  InputLeftAddon,
+} from '@chakra-ui/react';
+import { useUserContext } from '../../shared/hooks/useUserContext';
 
 export const ProfileEdit: React.FC = () => {
+  const {
+    firstName,
+    lastName,
+    username,
+    email,
+    description,
+    defineUserFirstName,
+    defineUserLastName,
+    defineUserEmail,
+    defineUserUsername,
+    defineUserDescription,
+  } = useUserContext();
+
   return (
     <Box
-      bg={useColorModeValue("white", "gray.900")}
+      bg={useColorModeValue('gray.100', 'gray.900')}
       borderRadius={10}
       color="white"
       h="auto"
       p={5}
     >
-      <Box textAlign={"start"}>
-        <Heading as="h3" size="md">
+      <Box textAlign={'start'}>
+        <Heading
+          color={useColorModeValue('gray.700', 'gray.400')}
+          size="md"
+          as="h3"
+        >
           Edição de perfil
         </Heading>
       </Box>
-      <HStack></HStack>
+      <Box py={5}>
+        <Stack textAlign={'center'} spacing={4}>
+          <HStack spacing={4}>
+            <FormControl id="first-name">
+              <FormLabel>Nome</FormLabel>
+              <Input
+                value={firstName}
+                onChange={(e) => defineUserFirstName(e.target.value)}
+                type="text"
+              />
+            </FormControl>
+            <FormControl id="last-name">
+              <FormLabel>Sobrenome</FormLabel>
+              <Input
+                value={lastName}
+                onChange={(e) => defineUserLastName(e.target.value)}
+                type="text"
+              />
+            </FormControl>
+          </HStack>
+          <HStack>
+            <FormControl id="username">
+              <FormLabel>Username</FormLabel>
+              <InputGroup>
+                <InputLeftAddon>@</InputLeftAddon>
+                <Input
+                  value={username}
+                  onChange={(e) => defineUserUsername(e.target.value)}
+                  type="text"
+                />
+              </InputGroup>
+            </FormControl>
+            <FormControl id="email">
+              <FormLabel>Email</FormLabel>
+              <Input
+                value={email}
+                onChange={(e) => defineUserEmail(e.target.value)}
+                type="email"
+              />
+            </FormControl>
+          </HStack>
+          <Stack spacing={4}>
+            <FormControl id="description">
+              <FormLabel>Descrição</FormLabel>
+              <Textarea
+                placeholder="Escreva um pouco sobre você..."
+                value={description}
+                onChange={(e) => defineUserDescription(e.target.value)}
+              />
+            </FormControl>
+          </Stack>
+        </Stack>
+      </Box>
     </Box>
   );
 };
-
-// <Flex
-//   justify={"center"}
-//   //   minH={"100vh"}
-//   //   align={"center"}
-//   //   bg={useColorModeValue("gray.50", "gray.800")}
-// >
-//   <Stack
-//     spacing={4}
-//     w={"full"}
-//     maxW={"md"}
-//     bg={useColorModeValue("white", "gray.700")}
-//     rounded={"xl"}
-//     boxShadow={"lg"}
-//     p={6}
-//     my={12}
-//   >
-//     <Heading lineHeight={1.1} fontSize={{ base: "2xl", sm: "3xl" }}>
-//       User Profile Edit
-//     </Heading>
-//     <FormControl id="userName">
-//       <FormLabel>User Icon</FormLabel>
-//       <Stack direction={["column", "row"]} spacing={6}>
-//         <Center>
-//           <Avatar size="xl" src="https://bit.ly/sage-adebayo">
-//             <AvatarBadge
-//               as={IconButton}
-//               size="sm"
-//               rounded="full"
-//               top="-10px"
-//               colorScheme="red"
-//               aria-label="remove Image"
-//               icon={<SmallCloseIcon />}
-//             />
-//           </Avatar>
-//         </Center>
-//         <Center w="full">
-//           <Button w="full">Change Icon</Button>
-//         </Center>
-//       </Stack>
-//     </FormControl>
-//     <FormControl id="userName" isRequired>
-//       <FormLabel>User name</FormLabel>
-//       <Input
-//         placeholder="UserName"
-//         _placeholder={{ color: "gray.500" }}
-//         type="text"
-//       />
-//     </FormControl>
-//     <FormControl id="email" isRequired>
-//       <FormLabel>Email address</FormLabel>
-//       <Input
-//         placeholder="your-email@example.com"
-//         _placeholder={{ color: "gray.500" }}
-//         type="email"
-//       />
-//     </FormControl>
-//     <FormControl id="password" isRequired>
-//       <FormLabel>Password</FormLabel>
-//       <Input
-//         placeholder="password"
-//         _placeholder={{ color: "gray.500" }}
-//         type="password"
-//       />
-//     </FormControl>
-//     <Stack spacing={6} direction={["column", "row"]}>
-//       <Button
-//         bg={"red.400"}
-//         color={"white"}
-//         w="full"
-//         _hover={{
-//           bg: "red.500",
-//         }}
-//       >
-//         Cancel
-//       </Button>
-//       <Button
-//         bg={"blue.400"}
-//         color={"white"}
-//         w="full"
-//         _hover={{
-//           bg: "blue.500",
-//         }}
-//       >
-//         Submit
-//       </Button>
-//     </Stack>
-//   </Stack>
-// </Flex>
