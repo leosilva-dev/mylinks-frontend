@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Box,
   Flex,
@@ -9,66 +10,59 @@ import {
   MenuDivider,
   useDisclosure,
   useColorModeValue,
-  Stack,
   useColorMode,
   HStack,
   IconButton,
   Icon,
   Text,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 import {
   ChevronDownIcon,
   CloseIcon,
   HamburgerIcon,
   MoonIcon,
   SunIcon,
-} from "@chakra-ui/icons";
-import { HiOutlineLightningBolt } from "react-icons/hi";
-import { useNavigate } from "react-router-dom";
-import { useUserContext } from "../../hooks/useUserContext";
-import { useEffect, useState } from "react";
+} from '@chakra-ui/icons';
+import { HiOutlineLightningBolt } from 'react-icons/hi';
+import { useNavigate } from 'react-router-dom';
+import { useUserContext } from '../../hooks/useUserContext';
 
 export const Header: React.FC = () => {
   const navigate = useNavigate();
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const { authenticated, user, handleLogout, isLoading } = useUserContext();
-
-  const [userName, setUserName] = useState("");
-
-  useEffect(() => {
-    setUserName(`${user.firstName} ${user.lastName}`);
-  }, [user]);
+  const { authenticated, firstName, lastName, handleLogout, isLoading } =
+    useUserContext();
 
   return (
-    <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
-      <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
+    <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
+      <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
         <IconButton
-          size={"md"}
+          size={'md'}
           icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
-          aria-label={"Open Menu"}
-          display={{ md: "none" }}
+          aria-label={'Open Menu'}
+          display={{ md: 'none' }}
           onClick={isOpen ? onClose : onOpen}
         />
-        <HStack spacing={8} alignItems={"center"}>
+        <HStack spacing={8} alignItems={'center'}>
           <Button
-            onClick={() => navigate("/")}
+            onClick={() => navigate('/')}
             _hover={{
-              textDecoration: "none",
-              bg: useColorModeValue("primary", "primary"),
-              borderColor: "primary",
-              color: useColorModeValue("primary", "primary"),
+              textDecoration: 'none',
+              bg: useColorModeValue('primary', 'primary'),
+              borderColor: 'primary',
+              color: useColorModeValue('primary', 'primary'),
             }}
           >
             <Text
-              color={"green.400"}
-              fontFamily={"monospace"}
-              fontSize={"large"}
+              color={'green.400'}
+              fontFamily={'monospace'}
+              fontSize={'large'}
               _hover={{
-                color: "green.500",
-                transform: "translateY(-2px)",
-                cursor: "pointer",
+                color: 'green.500',
+                transform: 'translateY(-2px)',
+                cursor: 'pointer',
               }}
             >
               <Icon as={HiOutlineLightningBolt} />
@@ -76,56 +70,56 @@ export const Header: React.FC = () => {
             </Text>
           </Button>
           <HStack
-            as={"nav"}
+            as={'nav'}
             spacing={4}
-            display={{ base: "none", md: "flex" }}
+            display={{ base: 'none', md: 'flex' }}
           ></HStack>
         </HStack>
-        <Flex alignItems={"center"}>
+        <Flex alignItems={'center'}>
           <Button onClick={toggleColorMode}>
-            {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+            {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
           </Button>
           {authenticated && !isLoading ? (
             <Menu>
               <MenuButton>
                 <Button
-                  variant={"Link"}
-                  bg={"primary"}
-                  size={"sm"}
+                  variant={'Link'}
+                  bg={'primary'}
+                  size={'sm'}
                   mr={4}
-                  color={useColorModeValue("primary", "primary")}
+                  color={useColorModeValue('primary', 'primary')}
                   rightIcon={<ChevronDownIcon />}
                   _hover={{
-                    textDecoration: "none",
-                    bg: useColorModeValue("primary", "primary"),
-                    borderColor: "primary",
-                    color: useColorModeValue("primary", "primary"),
+                    textDecoration: 'none',
+                    bg: useColorModeValue('primary', 'primary'),
+                    borderColor: 'primary',
+                    color: useColorModeValue('primary', 'primary'),
                   }}
                 >
-                  {userName}
+                  {`${firstName} ${lastName}`}
                 </Button>
               </MenuButton>
               <MenuList>
-                <MenuItem onClick={() => navigate("/home")}>Home</MenuItem>
-                <MenuItem onClick={() => navigate("/profile")}>Perfil</MenuItem>
+                <MenuItem onClick={() => navigate('/home')}>Home</MenuItem>
+                <MenuItem onClick={() => navigate('/profile')}>Perfil</MenuItem>
                 <MenuDivider />
                 <MenuItem onClick={handleLogout}>Sair</MenuItem>
               </MenuList>
             </Menu>
           ) : (
             <Button
-              variant={"Link"}
-              bg={"primary"}
-              size={"sm"}
+              variant={'Link'}
+              bg={'primary'}
+              size={'sm'}
               mr={4}
-              color={useColorModeValue("primary", "primary")}
+              color={useColorModeValue('primary', 'primary')}
               _hover={{
-                textDecoration: "none",
-                bg: useColorModeValue("primary", "primary"),
-                borderColor: "primary",
-                color: useColorModeValue("primary", "primary"),
+                textDecoration: 'none',
+                bg: useColorModeValue('primary', 'primary'),
+                borderColor: 'primary',
+                color: useColorModeValue('primary', 'primary'),
               }}
-              onClick={() => navigate("/entrar")}
+              onClick={() => navigate('/entrar')}
             >
               Entrar
             </Button>
