@@ -27,6 +27,11 @@ export const UserProvider: React.FC = ({ children }) => {
       Api.defaults.headers.common["Authorization"] = `Bearer ${JSON.parse(
         token
       )}`;
+
+      userService.getUserByToken(token).then((response) => {
+        setUser(response.data);
+      });
+
       setAuthenticated(true);
     }
 
