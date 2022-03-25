@@ -7,6 +7,7 @@ export interface IUser {
     lastName: string;
     email: string;
     password?:string;
+    description?:string;
 }
 
 const signIn = async (email: string, password: string): Promise<IRequestResult<IUser>> => {
