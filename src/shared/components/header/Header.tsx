@@ -32,7 +32,9 @@ interface IMenuLinks {
   name: string;
   route: string;
 }
-const MenuLinks: IMenuLinks[] = [{ name: "Perfil", route: "/profile" }];
+const MenuLinks: IMenuLinks[] = [
+  /* { name: "Perfil", route: "/profile" } */
+];
 
 const NavLink = (menulink: IMenuLinks) => {
   return (
@@ -58,7 +60,7 @@ export const Header: React.FC = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const { authenticated, handleLogout } = useUserContext();
+  const { authenticated, user, handleLogout, isLoading } = useUserContext();
 
   return (
     <>
@@ -72,8 +74,8 @@ export const Header: React.FC = () => {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={"center"}>
-            <Link
-              href={"/"}
+            <Button
+              onClick={() => navigate("/")}
               _hover={{
                 textDecoration: "none",
                 bg: useColorModeValue("primary", "primary"),
@@ -94,7 +96,7 @@ export const Header: React.FC = () => {
                 <Icon as={HiOutlineLightningBolt} />
                 MyLinks <br />
               </Text>
-            </Link>
+            </Button>
             <HStack
               as={"nav"}
               spacing={4}
@@ -115,7 +117,7 @@ export const Header: React.FC = () => {
             <Button onClick={toggleColorMode}>
               {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
             </Button>
-            {authenticated ? (
+            {authenticated && !isLoading ? (
               <Menu>
                 <MenuButton>
                   <Button
@@ -132,10 +134,11 @@ export const Header: React.FC = () => {
                       color: useColorModeValue("primary", "primary"),
                     }}
                   >
-                    Leonardo Silva
+                    {`${user.firstName} ${user.lastName}`}
                   </Button>
                 </MenuButton>
                 <MenuList>
+                  <MenuItem onClick={() => navigate("/home")}>Home</MenuItem>
                   <MenuItem onClick={() => navigate("/profile")}>
                     Perfil
                   </MenuItem>
