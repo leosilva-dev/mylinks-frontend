@@ -10,7 +10,6 @@ export interface IUser {
 }
 
 const signIn = async (email: string, password: string): Promise<IRequestResult<IUser>> => {
-        console.log('> API: signIn()');
         const response = {
             data: {
                 id: "1",

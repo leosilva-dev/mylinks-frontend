@@ -34,16 +34,19 @@ export const UserProvider: React.FC = ({ children }) => {
   }, []);
 
   const handleLogin = useCallback(async (email: string, password: string) => {
+    setIsLoading(true);
+
     const response = await userService.signIn(email, password);
     if (response.success) {
       localStorage.setItem("token", JSON.stringify(response.token));
       Api.defaults.headers.common["Authorization"] = `Bearer ${response.token}`;
       setUser(response.data);
       setAuthenticated(true);
-      setIsLoading(false);
+      Feedback("Login realizado com sucesso!", "success");
     } else {
       console.log(response.messages?.join(",\n"));
     }
+    setIsLoading(false);
   }, []);
 
   const handleLogout = useCallback(async () => {

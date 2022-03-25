@@ -154,6 +154,9 @@ export const SignUp: React.FC = () => {
                   bg={useColorModeValue("whiteAlpha.100", "gray.700")}
                   color={"blue.500"}
                   border={"1px solid"}
+                  _hover={{
+                    bg: useColorModeValue("whiteAlpha.100", "gray.700"),
+                  }}
                   onClick={() => navigate("/entrar")}
                 >
                   Já possui conta? Entrar
