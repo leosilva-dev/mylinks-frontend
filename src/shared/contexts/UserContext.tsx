@@ -1,6 +1,7 @@
 import React, { createContext, useCallback, useEffect, useState } from "react";
 import { IUser, userService } from "../services/api/user/User";
 import { Api } from "../services/axios-config/AxiosConfig";
+import { Feedback } from "../services/feedback/Feedback";
 
 interface IUserContextData {
   user: IUser;
@@ -35,12 +36,11 @@ export const UserProvider: React.FC = ({ children }) => {
   const handleLogin = useCallback(async (email: string, password: string) => {
     const response = await userService.signIn(email, password);
     if (response.success) {
-      localStorage.setItem("token", JSON.stringify(response.data.token));
-      Api.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${response.data.token}`;
+      localStorage.setItem("token", JSON.stringify(response.token));
+      Api.defaults.headers.common["Authorization"] = `Bearer ${response.token}`;
       setUser(response.data);
       setAuthenticated(true);
+      setIsLoading(false);
     } else {
       console.log(response.messages?.join(",\n"));
     }
@@ -54,12 +54,19 @@ export const UserProvider: React.FC = ({ children }) => {
   }, []);
 
   const handleSignUp = useCallback(async (user: IUser) => {
+    setIsLoading(true);
+
     const response = await userService.signUp(user);
     if (response.success) {
-      handleLogin(response.data.email, response.data.password);
+      localStorage.setItem("token", JSON.stringify(response.token));
+      Api.defaults.headers.common["Authorization"] = `Bearer ${response.token}`;
+      setUser(response.data);
+      setAuthenticated(true);
+      Feedback("Cadastro realizado com sucesso!", "success");
     } else {
       console.log(response.messages?.join(",\n"));
     }
+    setIsLoading(false);
   }, []);
 
   return (
