@@ -1,7 +1,6 @@
 import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Home, UserProfile, SignIn, SignUp, LinksSetup } from "../pages";
-import { ROLES } from "../shared/auth/roles";
 import { PrivateRoute } from "./PrivateRoute";
 
 export const AppRoutes: React.FC = () => {
@@ -14,11 +13,11 @@ export const AppRoutes: React.FC = () => {
 
       <Route
         path="/profile"
-        element={<PrivateRoute roles={[ROLES.USER]} component={UserProfile} />}
+        element={<PrivateRoute component={UserProfile} />}
       />
       <Route
         path="/links-setup"
-        element={<PrivateRoute roles={[ROLES.USER]} component={LinksSetup} />}
+        element={<PrivateRoute component={LinksSetup} />}
       />
 
       <Route path="*" element={<Navigate to="/" />} />
