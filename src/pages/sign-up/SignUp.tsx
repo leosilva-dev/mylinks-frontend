@@ -1,21 +1,76 @@
+import React, { useState } from "react";
 import {
   Flex,
   Box,
   FormControl,
   FormLabel,
   Input,
-  Checkbox,
   Stack,
-  Link,
   Button,
   Heading,
-  Text,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
+import { useUserContext } from "../../shared/hooks/useUserContext";
+import { Feedback } from "../../shared/services/feedback/Feedback";
+
 export const SignUp: React.FC = () => {
   const navigate = useNavigate();
+  const { handleSignUp, authenticated, isLoading } = useUserContext();
+
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const valide = () => {
+    if (password !== confirmPassword) {
+      Feedback("As senhas precisam ser iguais", "error");
+      return false;
+    }
+    if (password.length < 3) {
+      Feedback("A senha precisa conter pelo menos três caracteres", "error");
+      return false;
+    }
+    if (!email.includes("@")) {
+      Feedback("Informe um e-mail válido", "error");
+      return false;
+    }
+    if (!username.length) {
+      Feedback("O campo username é obrigatório", "error");
+      return false;
+    }
+    if (!firstName.length) {
+      Feedback("O campo nome é obrigatório", "error");
+      return false;
+    }
+    if (!lastName.length) {
+      Feedback("O campo sobrenome é obrigatório", "error");
+      return false;
+    }
+    Feedback("Criando sua conta...", "info");
+    return true;
+  };
+
+  const goToProfile = () => {
+    navigate("/profile");
+  };
+
+  const signUp = () => {
+    valide() &&
+      handleSignUp({
+        id: "",
+        firstName,
+        lastName,
+        username,
+        email,
+        password,
+      }) &&
+      goToProfile();
+  };
 
   return (
     <Flex
@@ -26,35 +81,62 @@ export const SignUp: React.FC = () => {
     >
       <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
         <Stack align={"center"}>
-          <Heading fontSize={"4xl"}>Crie a sua conta agora</Heading>
-
-          <Text fontSize={"lg"} color={"gray.600"}>
-            para aproveitar todas as nossas{" "}
-            <Link color={"blue.400"}> funcionalidades</Link> ✌️
-          </Text>
+          <Heading fontSize={"4xl"}>Crie a sua conta agora ✌️</Heading>
         </Stack>
         <Box
-          rounded={"lg"}
           bg={useColorModeValue("white", "gray.700")}
           boxShadow={"lg"}
+          rounded={"lg"}
           p={8}
         >
           <Stack spacing={4}>
-            <FormControl id="name">
+            <FormControl id="first-name">
               <FormLabel>Nome</FormLabel>
-              <Input type="text" />
+              <Input
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                type="text"
+              />
+            </FormControl>
+            <FormControl id="last-name">
+              <FormLabel>Sobrenome</FormLabel>
+              <Input
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                type="text"
+              />
+            </FormControl>
+            <FormControl id="username">
+              <FormLabel>Username</FormLabel>
+              <Input
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                type="text"
+              />
             </FormControl>
             <FormControl id="email">
               <FormLabel>Email</FormLabel>
-              <Input type="email" />
+              <Input
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                type="email"
+              />
             </FormControl>
             <FormControl id="password">
               <FormLabel>Senha</FormLabel>
-              <Input type="password" />
+              <Input
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                type="password"
+              />
             </FormControl>
             <FormControl id="password-confirm">
               <FormLabel>Confirme a sua senha</FormLabel>
-              <Input type="password" />
+              <Input
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                type="password"
+              />
             </FormControl>
             <Stack spacing={10}>
               <Stack>
@@ -64,17 +146,14 @@ export const SignUp: React.FC = () => {
                   _hover={{
                     bg: "blue.500",
                   }}
-                  onClick={() => navigate("/profile")}
+                  onClick={() => signUp()}
                 >
                   Cadastrar
                 </Button>
                 <Button
-                  bg={"whiteAlpha.100"}
+                  bg={useColorModeValue("whiteAlpha.100", "gray.700")}
                   color={"blue.500"}
                   border={"1px solid"}
-                  _hover={{
-                    bg: "whiteAlpha.500",
-                  }}
                   onClick={() => navigate("/entrar")}
                 >
                   Já possui conta? Entrar
