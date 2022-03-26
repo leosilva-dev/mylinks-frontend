@@ -7,12 +7,12 @@ import {
   Stack,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { useUserContext } from '../../shared/hooks/useUserContext';
+import { useProfileContext } from '../../shared/hooks/useProfileContext';
 import { LinksListPreview } from './links/LinksListPreview';
 
 export const ProfileResume: React.FC = () => {
   const { firstName, lastName, username, email, description } =
-    useUserContext();
+    useProfileContext();
 
   return (
     <Box

@@ -13,13 +13,13 @@ import {
   HStack,
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
-import { useUserContext } from '../../shared/hooks/useUserContext';
+import { useProfileContext } from '../../shared/hooks/useProfileContext';
 import { Feedback } from '../../shared/services/feedback/Feedback';
 import { useAuthContext } from '../../shared/hooks/useAuthContext';
 
 export const SignIn: React.FC = () => {
   const navigate = useNavigate();
-  const { firstName } = useUserContext();
+  const { firstName } = useProfileContext();
   const { authenticated, handleLogin, handleLogout } = useAuthContext();
 
   const [email, setEmail] = useState('');

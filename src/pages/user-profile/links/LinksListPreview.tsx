@@ -1,11 +1,11 @@
 import React from 'react';
-import { useUserContext } from '../../../shared/hooks/useUserContext';
+import { useProfileContext } from '../../../shared/hooks/useProfileContext';
 
 import { ILinks } from '../../../shared/services/api/links/Links';
 import { LinkPreview } from './LinkPreview';
 
 export const LinksListPreview: React.FC = () => {
-  const { links } = useUserContext();
+  const { links } = useProfileContext();
 
   return (
     <>

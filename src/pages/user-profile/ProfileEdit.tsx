@@ -12,7 +12,7 @@ import {
   InputGroup,
   InputLeftAddon,
 } from '@chakra-ui/react';
-import { useUserContext } from '../../shared/hooks/useUserContext';
+import { useProfileContext } from '../../shared/hooks/useProfileContext';
 import { LinksListEdit } from './links/LinksListEdit';
 
 export const ProfileEdit: React.FC = () => {
@@ -27,7 +27,7 @@ export const ProfileEdit: React.FC = () => {
     defineUserEmail,
     defineUserUsername,
     defineUserDescription,
-  } = useUserContext();
+  } = useProfileContext();
 
   return (
     <Box

@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useEffect, useState } from 'react';
-import { useUserContext } from '../hooks/useUserContext';
+import { useProfileContext } from '../hooks/useProfileContext';
 import { IUser, userService } from '../services/api/user/User';
 import { authService } from '../services/api/auth/Auth';
 import { Api } from '../services/axios-config/AxiosConfig';
@@ -17,7 +17,7 @@ export const AuthContext = createContext<IAuthContextData>(
 );
 
 export const AuthProvider: React.FC = ({ children }) => {
-  const { defineUser, clearUser } = useUserContext();
+  const { defineUser, clearUser } = useProfileContext();
   const [authenticated, setAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 

@@ -1,7 +1,8 @@
 import React, { createContext, useCallback, useEffect, useState } from 'react';
 import { ILinks, linkService } from '../services/api/links/Links';
 import { IUser } from '../services/api/user/User';
-interface IUserContextData {
+
+interface IProfileContextData {
   id: string;
   firstName: string;
   lastName: string;
@@ -17,11 +18,11 @@ interface IUserContextData {
   defineUser: (user: IUser) => void;
   clearUser: () => void;
 }
-export const UserContext = createContext<IUserContextData>(
-  {} as IUserContextData,
+export const ProfileContext = createContext<IProfileContextData>(
+  {} as IProfileContextData,
 );
 
-export const UserProvider: React.FC = ({ children }) => {
+export const ProfileProvider: React.FC = ({ children }) => {
   const [id, setId] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -72,7 +73,7 @@ export const UserProvider: React.FC = ({ children }) => {
   }, []);
 
   return (
-    <UserContext.Provider
+    <ProfileContext.Provider
       value={{
         id,
         firstName,
@@ -91,6 +92,6 @@ export const UserProvider: React.FC = ({ children }) => {
       }}
     >
       {children}
-    </UserContext.Provider>
+    </ProfileContext.Provider>
   );
 };
