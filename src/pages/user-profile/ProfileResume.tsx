@@ -8,6 +8,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { useUserContext } from '../../shared/hooks/useUserContext';
+import { LinksListPreview } from './links/LinksListPreview';
 
 export const ProfileResume: React.FC = () => {
   const { firstName, lastName, username, email, description } =
@@ -63,6 +64,11 @@ export const ProfileResume: React.FC = () => {
           </Text>
         </Box>
       </Box>
+      <Stack align="center" marginTop={10}>
+        <Stack width="80">
+          <LinksListPreview />
+        </Stack>
+      </Stack>
     </Box>
   );
 };

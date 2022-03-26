@@ -13,6 +13,7 @@ import {
   InputLeftAddon,
 } from '@chakra-ui/react';
 import { useUserContext } from '../../shared/hooks/useUserContext';
+import { LinksListEdit } from './links/LinksListEdit';
 
 export const ProfileEdit: React.FC = () => {
   const {
@@ -95,6 +96,20 @@ export const ProfileEdit: React.FC = () => {
                 onChange={(e) => defineUserDescription(e.target.value)}
               />
             </FormControl>
+          </Stack>
+        </Stack>
+        <Stack marginTop={10}>
+          <Box textAlign={'start'}>
+            <Heading
+              color={useColorModeValue('gray.700', 'gray.400')}
+              size="md"
+              as="h3"
+            >
+              Links compartilhados
+            </Heading>
+          </Box>
+          <Stack width="80">
+            <LinksListEdit />
           </Stack>
         </Stack>
       </Box>
