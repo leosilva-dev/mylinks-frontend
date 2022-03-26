@@ -24,17 +24,16 @@ import {
   SunIcon,
 } from '@chakra-ui/icons';
 import { HiOutlineLightningBolt } from 'react-icons/hi';
+import { BiUserCircle } from 'react-icons/bi';
+
 import { useNavigate } from 'react-router-dom';
-import { useUserContext } from '../../hooks/useUserContext';
 import { useAuthContext } from '../../hooks/useAuthContext';
 
 export const Header: React.FC = () => {
   const navigate = useNavigate();
+  const { authenticated, handleLogout, isLoading } = useAuthContext();
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const { firstName, lastName } = useUserContext();
-  const { authenticated, handleLogout, isLoading } = useAuthContext();
 
   return (
     <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
@@ -77,7 +76,12 @@ export const Header: React.FC = () => {
           ></HStack>
         </HStack>
         <Flex alignItems={'center'}>
-          <Button onClick={toggleColorMode}>
+          <Button
+            onClick={toggleColorMode}
+            bg={'transparent'}
+            _hover={{ bg: 'transparent' }}
+            _focus={{ bg: 'transparent' }}
+          >
             {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
           </Button>
           {authenticated && !isLoading ? (
@@ -97,7 +101,12 @@ export const Header: React.FC = () => {
                     color: useColorModeValue('primary', 'primary'),
                   }}
                 >
-                  {`${firstName} ${lastName}`}
+                  <IconButton
+                    variant="ghost"
+                    aria-label="User menu"
+                    fontSize="3xl"
+                    icon={<BiUserCircle />}
+                  />
                 </Button>
               </MenuButton>
               <MenuList>
