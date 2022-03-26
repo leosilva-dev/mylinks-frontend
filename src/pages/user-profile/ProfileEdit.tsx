@@ -30,10 +30,10 @@ export const ProfileEdit: React.FC = () => {
 
   return (
     <Box
-      bg={useColorModeValue('gray.100', 'gray.900')}
-      borderRadius={10}
-      color="white"
-      h="auto"
+      bg={useColorModeValue('white', 'gray.700')}
+      borderTopRadius={10}
+      boxShadow={'xs'}
+      h="100vh"
       p={5}
     >
       <Box textAlign={'start'}>

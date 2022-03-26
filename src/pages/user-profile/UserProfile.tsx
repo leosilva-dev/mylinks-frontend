@@ -5,11 +5,11 @@ import { ProfileResume } from './ProfileResume';
 
 export const UserProfile: React.FC = () => {
   return (
-    <Grid templateColumns="repeat(12, 1fr)" gap={2}>
-      <GridItem w="100%" h="10" colSpan={6} p={5}>
+    <Grid templateColumns="repeat(12, 1fr)" gap={1}>
+      <GridItem w="100%" h="100vh" colSpan={6} paddingX={2} paddingY={5}>
         <ProfileEdit />
       </GridItem>
-      <GridItem w="100%" h="10" colSpan={6} p={5}>
+      <GridItem w="100%" h="100vh" colSpan={6} paddingX={2} paddingY={5}>
         <ProfileResume />
       </GridItem>
     </Grid>

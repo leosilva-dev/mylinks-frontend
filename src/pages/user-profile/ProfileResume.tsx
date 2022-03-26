@@ -15,10 +15,10 @@ export const ProfileResume: React.FC = () => {
 
   return (
     <Box
-      bg={useColorModeValue('gray.100', 'gray.900')}
-      borderRadius={10}
-      color="white"
-      h="auto"
+      bg={useColorModeValue('white', 'gray.700')}
+      borderTopRadius={10}
+      boxShadow={'xs'}
+      h="100vh"
       p={5}
     >
       <Box textAlign={'start'}>
@@ -37,13 +37,12 @@ export const ProfileResume: React.FC = () => {
               <Avatar
                 name={`${firstName} ${lastName}`}
                 size={'lg'}
-                color={'white'}
                 bg={'teal.500'}
                 showBorder
               />
             </Box>
             <Box textAlign={'center'}>
-              <Heading fontSize={'2xl'} fontFamily={'body'}>
+              <Heading color={'gray.500'} fontSize={'2xl'} fontFamily={'body'}>
                 {`${firstName} ${lastName}`}
               </Heading>
               <Text fontWeight={600} color={'gray.500'} mb={4}>
