@@ -14,6 +14,7 @@ interface IProfileContextData {
   changeTitleLink: (id: string, title: string) => void;
   changeUrlLink: (id: string, url: string) => void;
   toggleEnableLink: (id: string) => void;
+  defineLinks: (links: ILinks[]) => void;
   defineUserFirstName: (value: string) => void;
   defineUserLastName: (value: string) => void;
   defineUserEmail: (value: string) => void;
@@ -95,6 +96,10 @@ export const ProfileProvider: React.FC = ({ children }) => {
     [links],
   );
 
+  const defineLinks = useCallback((links: ILinks[]) => {
+    setLinks([...links]);
+  }, []);
+
   const defineUserFirstName = useCallback((value: string) => {
     setFirstName(value);
   }, []);
@@ -144,6 +149,7 @@ export const ProfileProvider: React.FC = ({ children }) => {
         toggleEnableLink,
         changeTitleLink,
         changeUrlLink,
+        defineLinks,
         defineUserFirstName,
         defineUserLastName,
         defineUserUsername,
