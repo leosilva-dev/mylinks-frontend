@@ -1,4 +1,5 @@
-import React, { createContext, useCallback, useState } from 'react';
+import React, { createContext, useCallback, useEffect, useState } from 'react';
+import { ILinks, linkService } from '../services/api/links/Links';
 import { IUser } from '../services/api/user/User';
 interface IUserContextData {
   id: string;
@@ -7,6 +8,7 @@ interface IUserContextData {
   username: string;
   email: string;
   description: string;
+  links: ILinks[];
   defineUserFirstName: (value: string) => void;
   defineUserLastName: (value: string) => void;
   defineUserEmail: (value: string) => void;
@@ -26,6 +28,14 @@ export const UserProvider: React.FC = ({ children }) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [description, setDescription] = useState('');
+
+  const [links, setLinks] = useState<ILinks[]>([]);
+
+  useEffect(() => {
+    linkService.getLinksByUserId(id).then((response) => {
+      setLinks(response.data);
+    });
+  }, [id]);
 
   const defineUserFirstName = useCallback((value: string) => {
     setFirstName(value);
@@ -70,6 +80,7 @@ export const UserProvider: React.FC = ({ children }) => {
         username,
         email,
         description,
+        links,
         defineUserFirstName,
         defineUserLastName,
         defineUserUsername,
