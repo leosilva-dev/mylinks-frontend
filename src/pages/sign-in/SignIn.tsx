@@ -15,11 +15,12 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { useUserContext } from '../../shared/hooks/useUserContext';
 import { Feedback } from '../../shared/services/feedback/Feedback';
+import { useAuthContext } from '../../shared/hooks/useAuthContext';
 
 export const SignIn: React.FC = () => {
   const navigate = useNavigate();
-  const { authenticated, handleLogin, handleLogout, firstName } =
-    useUserContext();
+  const { firstName } = useUserContext();
+  const { authenticated, handleLogin, handleLogout } = useAuthContext();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

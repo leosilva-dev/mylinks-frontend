@@ -1,7 +1,7 @@
 import { createStandaloneToast } from "@chakra-ui/react"
 
-export const Feedback = (title:string, status:"info" | "warning" | "success" | "error", description?:string) => {
-    
+export const Feedback = (title:string, status:"info" | "warning" | "success" | "error", description?:string):void => {
+
     const toast = createStandaloneToast();
 
     toast({
@@ -12,5 +12,5 @@ export const Feedback = (title:string, status:"info" | "warning" | "success" | "
       isClosable: true,
       position: "top-right",
     });
-      
+
 }

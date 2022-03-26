@@ -1,8 +1,6 @@
-import React from "react";
-import { Navigate } from "react-router-dom";
-
-import { useUserContext } from "../shared/hooks/useUserContext";
-
+import React from 'react';
+import { Navigate } from 'react-router-dom';
+import { useAuthContext } from '../shared/hooks/useAuthContext';
 interface IPrivateRouteProps {
   component: React.ComponentType;
 }
@@ -10,7 +8,7 @@ interface IPrivateRouteProps {
 export const PrivateRoute: React.FC<IPrivateRouteProps> = ({
   component: RouteComponent,
 }) => {
-  const { authenticated, isLoading } = useUserContext();
+  const { authenticated, isLoading } = useAuthContext();
 
   if (isLoading) {
     return <div>Carregando...</div>;

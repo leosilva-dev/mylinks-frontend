@@ -26,14 +26,15 @@ import {
 import { HiOutlineLightningBolt } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
 import { useUserContext } from '../../hooks/useUserContext';
+import { useAuthContext } from '../../hooks/useAuthContext';
 
 export const Header: React.FC = () => {
   const navigate = useNavigate();
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const { authenticated, firstName, lastName, handleLogout, isLoading } =
-    useUserContext();
+  const { firstName, lastName } = useUserContext();
+  const { authenticated, handleLogout, isLoading } = useAuthContext();
 
   return (
     <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>

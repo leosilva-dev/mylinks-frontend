@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Flex,
   Box,
@@ -9,60 +9,60 @@ import {
   Button,
   Heading,
   useColorModeValue,
-} from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+} from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 
-import { useUserContext } from "../../shared/hooks/useUserContext";
-import { Feedback } from "../../shared/services/feedback/Feedback";
+import { Feedback } from '../../shared/services/feedback/Feedback';
+import { useAuthContext } from '../../shared/hooks/useAuthContext';
 
 export const SignUp: React.FC = () => {
   const navigate = useNavigate();
-  const { handleSignUp, authenticated, isLoading } = useUserContext();
+  const { handleSignUp } = useAuthContext();
 
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   const valide = () => {
     if (password !== confirmPassword) {
-      Feedback("As senhas precisam ser iguais", "error");
+      Feedback('As senhas precisam ser iguais', 'error');
       return false;
     }
     if (password.length < 3) {
-      Feedback("A senha precisa conter pelo menos três caracteres", "error");
+      Feedback('A senha precisa conter pelo menos três caracteres', 'error');
       return false;
     }
-    if (!email.includes("@")) {
-      Feedback("Informe um e-mail válido", "error");
+    if (!email.includes('@')) {
+      Feedback('Informe um e-mail válido', 'error');
       return false;
     }
     if (!username.length) {
-      Feedback("O campo username é obrigatório", "error");
+      Feedback('O campo username é obrigatório', 'error');
       return false;
     }
     if (!firstName.length) {
-      Feedback("O campo nome é obrigatório", "error");
+      Feedback('O campo nome é obrigatório', 'error');
       return false;
     }
     if (!lastName.length) {
-      Feedback("O campo sobrenome é obrigatório", "error");
+      Feedback('O campo sobrenome é obrigatório', 'error');
       return false;
     }
-    Feedback("Criando sua conta...", "info");
+    Feedback('Criando sua conta...', 'info');
     return true;
   };
 
   const goToProfile = () => {
-    navigate("/profile");
+    navigate('/profile');
   };
 
   const signUp = () => {
     valide() &&
       handleSignUp({
-        id: "",
+        id: '',
         firstName,
         lastName,
         username,
@@ -74,19 +74,19 @@ export const SignUp: React.FC = () => {
 
   return (
     <Flex
-      minH={"100vh"}
-      align={"center"}
-      justify={"center"}
-      bg={useColorModeValue("gray.50", "gray.800")}
+      minH={'100vh'}
+      align={'center'}
+      justify={'center'}
+      bg={useColorModeValue('gray.50', 'gray.800')}
     >
-      <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
-        <Stack align={"center"}>
-          <Heading fontSize={"4xl"}>Crie a sua conta agora ✌️</Heading>
+      <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
+        <Stack align={'center'}>
+          <Heading fontSize={'4xl'}>Crie a sua conta agora ✌️</Heading>
         </Stack>
         <Box
-          bg={useColorModeValue("white", "gray.700")}
-          boxShadow={"lg"}
-          rounded={"lg"}
+          bg={useColorModeValue('white', 'gray.700')}
+          boxShadow={'lg'}
+          rounded={'lg'}
           p={8}
         >
           <Stack spacing={4}>
@@ -141,23 +141,23 @@ export const SignUp: React.FC = () => {
             <Stack spacing={10}>
               <Stack>
                 <Button
-                  bg={"blue.400"}
-                  color={"white"}
+                  bg={'blue.400'}
+                  color={'white'}
                   _hover={{
-                    bg: "blue.500",
+                    bg: 'blue.500',
                   }}
                   onClick={() => signUp()}
                 >
                   Cadastrar
                 </Button>
                 <Button
-                  bg={useColorModeValue("whiteAlpha.100", "gray.700")}
-                  color={"blue.500"}
-                  border={"1px solid"}
+                  bg={useColorModeValue('whiteAlpha.100', 'gray.700')}
+                  color={'blue.500'}
+                  border={'1px solid'}
                   _hover={{
-                    bg: useColorModeValue("whiteAlpha.100", "gray.700"),
+                    bg: useColorModeValue('whiteAlpha.100', 'gray.700'),
                   }}
-                  onClick={() => navigate("/entrar")}
+                  onClick={() => navigate('/entrar')}
                 >
                   Já possui conta? Entrar
                 </Button>

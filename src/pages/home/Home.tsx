@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 
-import { Community } from "./Community";
-import { Features } from "./Features";
-import { Footer } from "./Footer";
-import { CallToAction } from "./CallToAction";
+import { CallToAction } from './CallToAction';
+import { Community } from './Community';
+import { Features } from './Features';
+import { Footer } from './Footer';
 
 export const Home: React.FC = () => {
   return (
