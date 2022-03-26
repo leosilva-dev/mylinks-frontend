@@ -10,6 +10,7 @@ interface IProfileContextData {
   email: string;
   description: string;
   links: ILinks[];
+  createLink: () => void;
   deleteLink: (id: string) => void;
   changeTitleLink: (id: string, title: string) => void;
   changeUrlLink: (id: string, url: string) => void;
@@ -100,6 +101,26 @@ export const ProfileProvider: React.FC = ({ children }) => {
     setLinks([...links]);
   }, []);
 
+  const createLink = useCallback(() => {
+    const newLink: ILinks = {
+      id: Math.random().toString(),
+      title: '',
+      url: '',
+      enabled: false,
+      order: 0,
+    };
+
+    links.forEach((link, index) => {
+      link.order = index + 1;
+    });
+
+    const allLinks = [...links, newLink];
+    allLinks.sort((a, b) => {
+      return a.order - b.order;
+    });
+    setLinks([...allLinks]);
+  }, [links]);
+
   const defineUserFirstName = useCallback((value: string) => {
     setFirstName(value);
   }, []);
@@ -145,6 +166,7 @@ export const ProfileProvider: React.FC = ({ children }) => {
         email,
         description,
         links,
+        createLink,
         deleteLink,
         toggleEnableLink,
         changeTitleLink,

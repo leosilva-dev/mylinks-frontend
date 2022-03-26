@@ -11,6 +11,7 @@ import {
   Textarea,
   InputGroup,
   InputLeftAddon,
+  Button,
 } from '@chakra-ui/react';
 import { useProfileContext } from '../../shared/hooks/useProfileContext';
 import { LinksListEdit } from './links/LinksListEdit';
@@ -27,6 +28,7 @@ export const ProfileEdit: React.FC = () => {
     defineUserEmail,
     defineUserUsername,
     defineUserDescription,
+    createLink,
   } = useProfileContext();
 
   return (
@@ -109,6 +111,7 @@ export const ProfileEdit: React.FC = () => {
             </Heading>
           </Box>
           <Stack width="80">
+            <Button onClick={createLink}>Novo link</Button>
             <LinksListEdit />
           </Stack>
         </Stack>
