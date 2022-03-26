@@ -25,6 +25,7 @@ import { DragHandleIcon } from '@chakra-ui/icons';
 import { FiTrash2, MdEdit } from 'react-icons/all';
 
 import { ILinks } from '../../../shared/services/api/links/Links';
+import { useProfileContext } from '../../../shared/hooks/useProfileContext';
 
 export const LinkEdit: React.FC<ILinks> = (props) => {
   const [title, setTitle] = useState(props.title);
@@ -34,6 +35,8 @@ export const LinkEdit: React.FC<ILinks> = (props) => {
   const [urlIsInEditMode, setUrlIsInEditMode] = useState(false);
 
   const { onOpen } = useDisclosure();
+  const { deleteLink, toggleEnableLink, changeTitleLink, changeUrlLink } =
+    useProfileContext();
 
   const refEditTitle = useRef<HTMLDivElement>(null);
   const refEditUrl = useRef<HTMLDivElement>(null);
@@ -58,7 +61,22 @@ export const LinkEdit: React.FC<ILinks> = (props) => {
   };
 
   const handleDeleteLink = () => {
-    console.log(`delete link clicked to ${title}`);
+    deleteLink(props.id);
+  };
+
+  const handleToggleEnable = () => {
+    setEnabled(!enabled);
+    toggleEnableLink(props.id);
+  };
+
+  const handleChangeTitle = (value: string) => {
+    setTitle(value);
+    changeTitleLink(props.id, value);
+  };
+
+  const handleChangeUrl = (value: string) => {
+    setUrl(value);
+    changeUrlLink(props.id, value);
   };
 
   return (
@@ -87,7 +105,7 @@ export const LinkEdit: React.FC<ILinks> = (props) => {
                   isFullWidth
                   fontSize="sm"
                   placeholder="Digite o título"
-                  onChange={(e) => setTitle(e.target.value)}
+                  onChange={(e) => handleChangeTitle(e.target.value)}
                 />
               ) : (
                 <Box ref={refEditTitle} cursor={'pointer'}>
@@ -112,7 +130,7 @@ export const LinkEdit: React.FC<ILinks> = (props) => {
                   isFullWidth
                   fontSize="sm"
                   placeholder="Digite a URL"
-                  onChange={(e) => setUrl(e.target.value)}
+                  onChange={(e) => handleChangeUrl(e.target.value)}
                 />
               ) : (
                 <Box ref={refEditUrl} cursor={'pointer'}>
@@ -134,7 +152,7 @@ export const LinkEdit: React.FC<ILinks> = (props) => {
             <VStack paddingTop={1} paddingRight={2}>
               <Switch
                 _focus={{ boxShadow: 'none' }}
-                onChange={() => setEnabled(!enabled)}
+                onChange={() => handleToggleEnable()}
                 isChecked={enabled}
                 size={'sm'}
                 colorScheme={'whatsapp'}

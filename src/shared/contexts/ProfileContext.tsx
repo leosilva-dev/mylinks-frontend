@@ -10,6 +10,10 @@ interface IProfileContextData {
   email: string;
   description: string;
   links: ILinks[];
+  deleteLink: (id: string) => void;
+  changeTitleLink: (id: string, title: string) => void;
+  changeUrlLink: (id: string, url: string) => void;
+  toggleEnableLink: (id: string) => void;
   defineUserFirstName: (value: string) => void;
   defineUserLastName: (value: string) => void;
   defineUserEmail: (value: string) => void;
@@ -38,6 +42,59 @@ export const ProfileProvider: React.FC = ({ children }) => {
     });
   }, [id]);
 
+  const deleteLink = useCallback(
+    (id: string) => {
+      const result = links.filter((link) => link.id !== id);
+      setLinks(result);
+    },
+    [links],
+  );
+
+  const toggleEnableLink = useCallback(
+    (id: string) => {
+      const link = links.find((link) => link.id === id);
+      const otherLinks = links.filter((link) => link.id !== id);
+
+      if (link) {
+        link.enabled = !link.enabled;
+        otherLinks.push(link);
+        otherLinks.sort((a, b) => a.order - b.order);
+        setLinks(otherLinks);
+      }
+    },
+    [links],
+  );
+
+  const changeTitleLink = useCallback(
+    (id: string, value: string) => {
+      const link = links.find((link) => link.id === id);
+      const otherLinks = links.filter((link) => link.id !== id);
+
+      if (link) {
+        link.title = value;
+        otherLinks.push(link);
+        otherLinks.sort((a, b) => a.order - b.order);
+        setLinks(otherLinks);
+      }
+    },
+    [links],
+  );
+
+  const changeUrlLink = useCallback(
+    (id: string, value: string) => {
+      const link = links.find((link) => link.id === id);
+      const otherLinks = links.filter((link) => link.id !== id);
+
+      if (link) {
+        link.url = value;
+        otherLinks.push(link);
+        otherLinks.sort((a, b) => a.order - b.order);
+        setLinks(otherLinks);
+      }
+    },
+    [links],
+  );
+
   const defineUserFirstName = useCallback((value: string) => {
     setFirstName(value);
   }, []);
@@ -61,6 +118,7 @@ export const ProfileProvider: React.FC = ({ children }) => {
     setUsername('');
     setEmail('');
     setDescription('');
+    setLinks([]);
   }, []);
 
   const defineUser = useCallback((user: IUser) => {
@@ -82,6 +140,10 @@ export const ProfileProvider: React.FC = ({ children }) => {
         email,
         description,
         links,
+        deleteLink,
+        toggleEnableLink,
+        changeTitleLink,
+        changeUrlLink,
         defineUserFirstName,
         defineUserLastName,
         defineUserUsername,
