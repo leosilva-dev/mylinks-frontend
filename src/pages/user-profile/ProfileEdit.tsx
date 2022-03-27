@@ -14,7 +14,7 @@ import {
   Button,
 } from '@chakra-ui/react';
 import { useProfileContext } from '../../shared/hooks/useProfileContext';
-import { LinksListEdit } from './links/LinksListEdit';
+import { LinksListEdit } from '../../shared/components/links/edit/LinksListEdit';
 
 export const ProfileEdit: React.FC = () => {
   const {

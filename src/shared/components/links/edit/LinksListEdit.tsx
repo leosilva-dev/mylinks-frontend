@@ -1,5 +1,5 @@
-import { useColorMode } from '@chakra-ui/react';
 import React, { useCallback } from 'react';
+import { Box, useColorMode } from '@chakra-ui/react';
 import {
   DragDropContext,
   Draggable,
@@ -7,12 +7,12 @@ import {
   DropResult,
 } from 'react-beautiful-dnd';
 
-import { useProfileContext } from '../../../shared/hooks/useProfileContext';
+import { useProfileContext } from '../../../hooks/useProfileContext';
 import { LinkEdit } from './LinkEdit';
 
 export const LinksListEdit: React.FC = () => {
-  const { links, defineLinks } = useProfileContext();
   const { colorMode } = useColorMode();
+  const { links, defineLinks } = useProfileContext();
 
   const onDragEnd = useCallback(
     (result: DropResult) => {
@@ -44,31 +44,28 @@ export const LinksListEdit: React.FC = () => {
                     draggableId={`${link.id}`}
                     index={index}
                   >
-                    {(provided, { isDragging }) => (
+                    {(provided) => (
                       <div
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                         style={{
-                          ...provided.draggableProps.style,
-                          background: isDragging
-                            ? colorMode === 'light'
-                              ? '#FDFFFC'
-                              : '#2D3748'
-                            : 'transparent',
                           borderRadius: 5,
-                          paddingRight: isDragging ? 3 : 0,
-                          paddingTop: isDragging ? 1.5 : 0,
+                          background:
+                            colorMode === 'light' ? 'white' : '#1A202C',
+                          ...provided.draggableProps.style,
                         }}
                       >
-                        <LinkEdit
-                          key={link.id}
-                          id={link.id}
-                          title={link.title}
-                          url={link.url}
-                          enabled={link.enabled}
-                          order={link.order}
-                        />
+                        <Box marginBottom={2}>
+                          <LinkEdit
+                            key={link.id}
+                            id={link.id}
+                            title={link.title}
+                            url={link.url}
+                            enabled={link.enabled}
+                            order={link.order}
+                          />
+                        </Box>
                       </div>
                     )}
                   </Draggable>

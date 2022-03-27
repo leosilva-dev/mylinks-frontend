@@ -24,8 +24,8 @@ import {
 import { DragHandleIcon } from '@chakra-ui/icons';
 import { FiTrash2, MdEdit } from 'react-icons/all';
 
-import { ILinks } from '../../../shared/services/api/links/Links';
-import { useProfileContext } from '../../../shared/hooks/useProfileContext';
+import { ILinks } from '../../../services/api/links/Links';
+import { useProfileContext } from '../../../hooks/useProfileContext';
 
 export const LinkEdit: React.FC<ILinks> = (props) => {
   const [title, setTitle] = useState(props.title);
@@ -80,20 +80,20 @@ export const LinkEdit: React.FC<ILinks> = (props) => {
   };
 
   return (
-    <Box width={'full'} boxShadow={'base'} borderRadius={'base'}>
-      <HStack /* border={'1px solid green'} */>
+    <Box
+      boxShadow={'base'}
+      borderRadius={'base'}
+      paddingTop={1}
+      paddingBottom={1}
+    >
+      <HStack>
         <Stack paddingLeft={2}>
           <Box cursor={'grabbing'}>
             <DragHandleIcon />
           </Box>
         </Stack>
-        <HStack justify={'space-between'} p={0}>
-          <Stack
-            align="start"
-            /*  border={'1px solid blue'} */
-            direction="row"
-            h="60px"
-          >
+        <HStack width={'full'} justify={'space-between'}>
+          <Stack align="start" direction="row" h="60px">
             <Divider orientation="vertical" />
             <VStack paddingTop={1} align="flex-start">
               {titleIsInEditMode ? (
@@ -102,13 +102,12 @@ export const LinkEdit: React.FC<ILinks> = (props) => {
                   value={title}
                   variant="unstyled"
                   isTruncated
-                  isFullWidth
                   fontSize="sm"
                   placeholder="Digite o título"
                   onChange={(e) => handleChangeTitle(e.target.value)}
                 />
               ) : (
-                <Box ref={refEditTitle} cursor={'pointer'}>
+                <Box ref={refEditTitle} cursor={'pointer'} width="56">
                   <Text
                     variant="unstyled"
                     isTruncated
@@ -127,13 +126,13 @@ export const LinkEdit: React.FC<ILinks> = (props) => {
                   value={url}
                   variant="unstyled"
                   isTruncated
-                  isFullWidth
+                  width="auto"
                   fontSize="sm"
                   placeholder="Digite a URL"
                   onChange={(e) => handleChangeUrl(e.target.value)}
                 />
               ) : (
-                <Box ref={refEditUrl} cursor={'pointer'}>
+                <Box ref={refEditUrl} cursor={'pointer'} width="56">
                   <Text
                     variant="unstyled"
                     isTruncated
@@ -148,8 +147,8 @@ export const LinkEdit: React.FC<ILinks> = (props) => {
             </VStack>
           </Stack>
 
-          <Stack /* border={'1px solid red'} */ direction="row" h="60px">
-            <VStack paddingTop={1} paddingRight={2}>
+          <Stack direction="row" h="60px">
+            <VStack paddingTop={1} paddingRight={0}>
               <Switch
                 _focus={{ boxShadow: 'none' }}
                 onChange={() => handleToggleEnable()}

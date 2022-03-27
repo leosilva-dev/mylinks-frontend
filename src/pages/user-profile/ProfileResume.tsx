@@ -6,12 +6,15 @@ import {
   Text,
   Stack,
   useColorModeValue,
+  Button,
+  Link,
 } from '@chakra-ui/react';
 import { useProfileContext } from '../../shared/hooks/useProfileContext';
-import { LinksListPreview } from './links/LinksListPreview';
+import { LinksListPreview } from '../../shared/components/links/preview/LinksListPreview';
+import { ExternalLinkIcon } from '@chakra-ui/icons';
 
 export const ProfileResume: React.FC = () => {
-  const { firstName, lastName, username, email, description } =
+  const { firstName, lastName, username, email, description, links } =
     useProfileContext();
 
   return (
@@ -22,7 +25,7 @@ export const ProfileResume: React.FC = () => {
       h="100vh"
       p={5}
     >
-      <Box textAlign={'start'}>
+      <Box>
         <Heading
           color={useColorModeValue('gray.700', 'gray.400')}
           size="md"
@@ -30,6 +33,20 @@ export const ProfileResume: React.FC = () => {
         >
           Perfil preview
         </Heading>
+
+        <Link
+          isExternal
+          href={`/@/${username}`}
+          _hover={{ textDecoration: 'none' }}
+        >
+          <Button
+            rightIcon={<ExternalLinkIcon />}
+            colorScheme="blue"
+            variant="ghost"
+          >
+            Ver perfil
+          </Button>
+        </Link>
       </Box>
       <Box py={5}>
         <Box textAlign={'center'}>
@@ -66,7 +83,9 @@ export const ProfileResume: React.FC = () => {
       </Box>
       <Stack align="center" marginTop={10}>
         <Stack width="80">
-          <LinksListPreview />
+          <LinksListPreview
+            links={links.filter((link) => link.enabled === true)}
+          />
         </Stack>
       </Stack>
     </Box>
