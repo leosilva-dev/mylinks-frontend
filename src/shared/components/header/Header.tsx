@@ -84,7 +84,7 @@ export const Header: React.FC = () => {
           >
             {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
           </Button>
-          {authenticated && !isLoading ? (
+          {authenticated && !isLoading && (
             <Menu>
               <MenuButton>
                 <Button
@@ -116,23 +116,6 @@ export const Header: React.FC = () => {
                 <MenuItem onClick={handleLogout}>Sair</MenuItem>
               </MenuList>
             </Menu>
-          ) : (
-            <Button
-              variant={'Link'}
-              bg={'primary'}
-              size={'sm'}
-              mr={4}
-              color={useColorModeValue('primary', 'primary')}
-              _hover={{
-                textDecoration: 'none',
-                bg: useColorModeValue('primary', 'primary'),
-                borderColor: 'primary',
-                color: useColorModeValue('primary', 'primary'),
-              }}
-              onClick={() => navigate('/entrar')}
-            >
-              Entrar
-            </Button>
           )}
         </Flex>
       </Flex>
