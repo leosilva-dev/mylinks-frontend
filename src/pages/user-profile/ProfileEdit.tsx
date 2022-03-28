@@ -116,6 +116,27 @@ export const ProfileEdit: React.FC = () => {
           </Stack>
         </Stack>
       </Box>
+
+      <Stack>
+        <Button
+          bg={'green.400'}
+          color={'white'}
+          _hover={{
+            bg: 'green.500',
+          }}
+        >
+          Salvar
+        </Button>
+        <Button
+          bg={'gray.200'}
+          color={'gray'}
+          _hover={{
+            bg: 'gray.300',
+          }}
+        >
+          Descartar alterações
+        </Button>
+      </Stack>
     </Box>
   );
 };
