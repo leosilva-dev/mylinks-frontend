@@ -27,6 +27,10 @@ export const SignUp: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const valide = () => {
+    if (/^[a-zA-Z]+$/.test(username) === false) {
+      Feedback('O campo username deve conter apenas letras', 'error');
+      return false;
+    }
     if (password !== confirmPassword) {
       Feedback('As senhas precisam ser iguais', 'error');
       return false;
