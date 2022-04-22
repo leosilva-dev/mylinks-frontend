@@ -14,8 +14,7 @@ import { LinksListPreview } from '../../shared/components/links/preview/LinksLis
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 
 export const ProfileResume: React.FC = () => {
-  const { firstName, lastName, username, email, description, links } =
-    useProfileContext();
+  const { name, username, email, bio, links } = useProfileContext();
 
   return (
     <Box
@@ -52,16 +51,11 @@ export const ProfileResume: React.FC = () => {
         <Box textAlign={'center'}>
           <Stack align={'center'}>
             <Box>
-              <Avatar
-                name={`${firstName} ${lastName}`}
-                size={'lg'}
-                bg={'teal.500'}
-                showBorder
-              />
+              <Avatar name={`${name}`} size={'lg'} bg={'teal.500'} showBorder />
             </Box>
             <Box textAlign={'center'}>
               <Heading color={'gray.500'} fontSize={'2xl'} fontFamily={'body'}>
-                {`${firstName} ${lastName}`}
+                {`${name}`}
               </Heading>
               <Text fontWeight={600} color={'gray.500'} mb={4}>
                 {`@${username}`}
@@ -77,7 +71,7 @@ export const ProfileResume: React.FC = () => {
             color={useColorModeValue('gray.700', 'gray.400')}
             px={3}
           >
-            {description || ''}
+            {bio || ''}
           </Text>
         </Box>
       </Box>

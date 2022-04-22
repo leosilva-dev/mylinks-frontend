@@ -15,21 +15,39 @@ import {
 } from '@chakra-ui/react';
 import { useProfileContext } from '../../shared/hooks/useProfileContext';
 import { LinksListEdit } from '../../shared/components/links/edit/LinksListEdit';
+import { IProfileToUpdate } from '../../shared/services/api/profile/Profile';
+import { useNavigate } from 'react-router-dom';
 
 export const ProfileEdit: React.FC = () => {
+  const navigate = useNavigate();
+
   const {
-    firstName,
-    lastName,
+    id,
+    name,
     username,
     email,
-    description,
-    defineUserFirstName,
-    defineUserLastName,
+    bio,
+    links,
+    defineUserName,
     defineUserEmail,
     defineUserUsername,
-    defineUserDescription,
+    defineUserBio,
     createLink,
+    updateProfile,
   } = useProfileContext();
+
+  const handleSave = () => {
+    const profileToUpdate: IProfileToUpdate = {
+      _id: id,
+      name,
+      username,
+      email,
+      bio,
+      links,
+    };
+
+    updateProfile(profileToUpdate);
+  };
 
   return (
     <Box
@@ -51,19 +69,11 @@ export const ProfileEdit: React.FC = () => {
       <Box py={5}>
         <Stack textAlign={'center'} spacing={4}>
           <HStack spacing={4}>
-            <FormControl id="first-name">
+            <FormControl id="name">
               <FormLabel>Nome</FormLabel>
               <Input
-                value={firstName}
-                onChange={(e) => defineUserFirstName(e.target.value)}
-                type="text"
-              />
-            </FormControl>
-            <FormControl id="last-name">
-              <FormLabel>Sobrenome</FormLabel>
-              <Input
-                value={lastName}
-                onChange={(e) => defineUserLastName(e.target.value)}
+                value={name}
+                onChange={(e) => defineUserName(e.target.value)}
                 type="text"
               />
             </FormControl>
@@ -90,12 +100,12 @@ export const ProfileEdit: React.FC = () => {
             </FormControl>
           </HStack>
           <Stack spacing={4}>
-            <FormControl id="description">
+            <FormControl id="bio">
               <FormLabel>Descrição</FormLabel>
               <Textarea
                 placeholder="Escreva um pouco sobre você..."
-                value={description}
-                onChange={(e) => defineUserDescription(e.target.value)}
+                value={bio}
+                onChange={(e) => defineUserBio(e.target.value)}
               />
             </FormControl>
           </Stack>
@@ -124,6 +134,7 @@ export const ProfileEdit: React.FC = () => {
           _hover={{
             bg: 'green.500',
           }}
+          onClick={() => handleSave()}
         >
           Salvar
         </Button>
@@ -133,6 +144,7 @@ export const ProfileEdit: React.FC = () => {
           _hover={{
             bg: 'gray.300',
           }}
+          onClick={() => navigate(0)}
         >
           Descartar alterações
         </Button>

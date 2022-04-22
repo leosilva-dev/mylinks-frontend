@@ -14,24 +14,20 @@ import {
 } from '../../shared/services/api/shared-profile/SharedProfile';
 import { LinksListPreview } from '../../shared/components/links/preview/LinksListPreview';
 
-interface ISharedProfileTypes {
-  usernameParam: string;
-}
-
 export const SharedProfile: React.FC = () => {
-  const { usernameParam } = useParams<keyof ISharedProfileTypes>();
+  const { username } = useParams();
 
   const [data, setData] = useState<ISharedProfile>();
 
   useEffect(() => {
     sharedProfileService
-      .getSharedProfileByUsername(usernameParam || '')
+      .getSharedProfileByUsername(username as string)
       .then((response) => {
-        if (response.data !== undefined) {
+        if (response !== undefined && response.success) {
           setData(response.data);
         }
       });
-  }, [usernameParam]);
+  }, [username]);
 
   return (
     <Box
@@ -47,21 +43,22 @@ export const SharedProfile: React.FC = () => {
           <Stack align={'center'}>
             <Box>
               <Avatar
-                name={data?.title}
+                name={data?.user.name}
                 size={'lg'}
                 bg={'teal.500'}
+                color={'white'}
                 showBorder
               />
             </Box>
             <Box textAlign={'center'}>
               <Heading color={'gray.500'} fontSize={'2xl'} fontFamily={'body'}>
-                {data?.title}
+                {data?.user.name}
               </Heading>
               <Text fontWeight={600} color={'gray.500'} mb={4}>
-                {`@${data?.username}`}
+                {`@${data?.user.username}`}
               </Text>
               <Text fontWeight={600} color={'gray.500'} mb={4}>
-                {data?.email}
+                {data?.user.email}
               </Text>
             </Box>
           </Stack>
@@ -71,7 +68,7 @@ export const SharedProfile: React.FC = () => {
             color={useColorModeValue('gray.700', 'gray.400')}
             px={3}
           >
-            {data?.bio || ''}
+            {data?.user.bio || ''}
           </Text>
         </Box>
       </Box>

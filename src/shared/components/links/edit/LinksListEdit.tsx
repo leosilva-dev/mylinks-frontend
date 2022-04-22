@@ -34,7 +34,7 @@ export const LinksListEdit: React.FC = () => {
   return (
     <>
       <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="tasks">
+        <Droppable droppableId="links">
           {(provided) => (
             <div ref={provided.innerRef} {...provided.droppableProps}>
               {links.map((link, index) => {
