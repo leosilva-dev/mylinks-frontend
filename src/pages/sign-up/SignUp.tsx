@@ -19,8 +19,7 @@ export const SignUp: React.FC = () => {
   const navigate = useNavigate();
   const { handleSignUp } = useAuthContext();
 
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const [name, setName] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -47,12 +46,8 @@ export const SignUp: React.FC = () => {
       Feedback('O campo username é obrigatório', 'error');
       return false;
     }
-    if (!firstName.length) {
+    if (!name.length) {
       Feedback('O campo nome é obrigatório', 'error');
-      return false;
-    }
-    if (!lastName.length) {
-      Feedback('O campo sobrenome é obrigatório', 'error');
       return false;
     }
     Feedback('Criando sua conta...', 'info');
@@ -64,16 +59,17 @@ export const SignUp: React.FC = () => {
   };
 
   const signUp = () => {
-    valide() &&
+    const userIsValid = valide();
+    if (userIsValid) {
       handleSignUp({
-        id: '',
-        firstName,
-        lastName,
+        name,
         username,
         email,
         password,
-      }) &&
-      goToProfile();
+      }).then(() => {
+        goToProfile();
+      });
+    }
   };
 
   return (
@@ -94,19 +90,11 @@ export const SignUp: React.FC = () => {
           p={8}
         >
           <Stack spacing={4}>
-            <FormControl id="first-name">
+            <FormControl id="name">
               <FormLabel>Nome</FormLabel>
               <Input
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                type="text"
-              />
-            </FormControl>
-            <FormControl id="last-name">
-              <FormLabel>Sobrenome</FormLabel>
-              <Input
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 type="text"
               />
             </FormControl>
