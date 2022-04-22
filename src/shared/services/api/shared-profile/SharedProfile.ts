@@ -1,4 +1,5 @@
 import { IRequestResult } from "../../../interfaces/IRequestResult";
+import { Api } from "../../axios-config/AxiosConfig";
 
 export interface ILinksSharedProfile {
   title: string;
@@ -6,40 +7,42 @@ export interface ILinksSharedProfile {
 }
 
 export interface ISharedProfile {
-  title: string;
-  username: string;
-  email: string;
-  bio: string;
-  links: ILinksSharedProfile[]
+
+    user:{
+      name: string;
+      username: string;
+      email: string;
+      bio: string;
+
+    },
+    links: ILinksSharedProfile[];
+
 }
 
 const getSharedProfileByUsername = async (username: string): Promise<IRequestResult<ISharedProfile>> => {
-  const response = {
-      data: {
-          title: 'Leonardo Silva',
-          username: "leosilva",
-          email: 'silvaleonardo.ti@gmail.com',
-          bio: 'Software Engineer',
-          links: [
-            {
-              title: 'Github',
-              url:  'https://github.com/leosilva-dev'
-            },
-            {
-              title: 'Linkedin',
-              url: 'https://www.linkedin.com/in/leonardosilva-dev/'
-            },
-            {
-              title: 'Twitter',
-              url:  'https://twitter.com/leonaardo__s'
-            }
-          ]
-      } as ISharedProfile,
-      success: true,
-      messages: [],
+  try {
+    const {data} = await Api.get<IRequestResult<ISharedProfile>>(`/@/${username}`);
+
+    const response = {
+      data: data.data,
+      success: data.success,
+      message: data.message,
   } as IRequestResult<ISharedProfile>
 
   return response;
+
+  } catch (error) {
+    const response = {
+      data: {} as ISharedProfile,
+      success: false,
+      message: '',
+  } as IRequestResult<ISharedProfile>
+
+  return response;
+  }
+
+
+
 }
 
 
