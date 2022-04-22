@@ -7,15 +7,15 @@ import { AuthProvider } from './shared/contexts/AuthContext';
 
 export const App = () => {
   return (
-    <ProfileProvider>
-      <AuthProvider>
+    <AuthProvider>
+      <ProfileProvider>
         <BrowserRouter>
           <LayoutPageDefault>
             <AppRoutes />
           </LayoutPageDefault>
         </BrowserRouter>
-      </AuthProvider>
-    </ProfileProvider>
+      </ProfileProvider>
+    </AuthProvider>
   );
 };
 
