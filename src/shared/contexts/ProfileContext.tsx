@@ -1,14 +1,19 @@
 import React, { createContext, useCallback, useEffect, useState } from 'react';
-import { ILinks, linkService } from '../services/api/links/Links';
-import { IUser } from '../services/api/user/User';
+import { useAuthContext } from '../hooks/useAuthContext';
+import {
+  ILinks,
+  IProfileToUpdate,
+  IUser,
+  profileService,
+} from '../services/api/profile/Profile';
+import { Feedback } from '../services/feedback/Feedback';
 
 interface IProfileContextData {
   id: string;
-  firstName: string;
-  lastName: string;
+  name: string;
   username: string;
   email: string;
-  description: string;
+  bio: string;
   links: ILinks[];
   createLink: () => void;
   deleteLink: (id: string) => void;
@@ -16,13 +21,13 @@ interface IProfileContextData {
   changeUrlLink: (id: string, url: string) => void;
   toggleEnableLink: (id: string) => void;
   defineLinks: (links: ILinks[]) => void;
-  defineUserFirstName: (value: string) => void;
-  defineUserLastName: (value: string) => void;
+  defineUserName: (value: string) => void;
   defineUserEmail: (value: string) => void;
   defineUserUsername: (value: string) => void;
-  defineUserDescription: (value: string) => void;
+  defineUserBio: (value: string) => void;
   defineUser: (user: IUser) => void;
   clearUser: () => void;
+  updateProfile: (profile: IProfileToUpdate) => Promise<boolean>;
 }
 export const ProfileContext = createContext<IProfileContextData>(
   {} as IProfileContextData,
@@ -30,19 +35,54 @@ export const ProfileContext = createContext<IProfileContextData>(
 
 export const ProfileProvider: React.FC = ({ children }) => {
   const [id, setId] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const [name, setName] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
-  const [description, setDescription] = useState('');
+  const [bio, setBio] = useState('');
 
   const [links, setLinks] = useState<ILinks[]>([]);
 
+  const { authenticated } = useAuthContext();
+
+  const defineUser = useCallback((user: IUser) => {
+    setId(user._id);
+    setName(user.name);
+    setUsername(user.username);
+    setEmail(user.email);
+    setBio(user.bio || '');
+  }, []);
+
   useEffect(() => {
-    linkService.getLinksByUserId(id).then((response) => {
-      setLinks(response.data);
-    });
-  }, [id]);
+    if (authenticated) {
+      profileService.getUser().then((response) => {
+        if (response !== undefined && response.success) {
+          defineUser(response.data);
+        }
+      });
+
+      profileService.getLinks().then((response) => {
+        if (response !== undefined && response.success) {
+          setLinks(response.data);
+        }
+      });
+    }
+  }, [authenticated, defineUser, id]);
+
+  const updateProfile = useCallback(
+    async (profile: IProfileToUpdate): Promise<boolean> => {
+      const response = await profileService.updateProfile(profile);
+
+      if (response !== undefined && response.success) {
+        defineUser(response.data);
+        Feedback(response.message, 'success');
+        return response.success;
+      } else {
+        Feedback(response.message, 'error');
+        return response.success;
+      }
+    },
+    [defineUser],
+  );
 
   const deleteLink = useCallback(
     (id: string) => {
@@ -121,11 +161,8 @@ export const ProfileProvider: React.FC = ({ children }) => {
     setLinks([...allLinks]);
   }, [links]);
 
-  const defineUserFirstName = useCallback((value: string) => {
-    setFirstName(value);
-  }, []);
-  const defineUserLastName = useCallback((value: string) => {
-    setLastName(value);
+  const defineUserName = useCallback((value: string) => {
+    setName(value);
   }, []);
   const defineUserUsername = useCallback((value: string) => {
     setUsername(value);
@@ -133,38 +170,27 @@ export const ProfileProvider: React.FC = ({ children }) => {
   const defineUserEmail = useCallback((value: string) => {
     setEmail(value);
   }, []);
-  const defineUserDescription = useCallback((value: string) => {
-    setDescription(value);
+  const defineUserBio = useCallback((value: string) => {
+    setBio(value);
   }, []);
 
   const clearUser = useCallback(() => {
     setId('');
-    setFirstName('');
-    setLastName('');
+    setName('');
     setUsername('');
     setEmail('');
-    setDescription('');
+    setBio('');
     setLinks([]);
-  }, []);
-
-  const defineUser = useCallback((user: IUser) => {
-    setId(user.id);
-    setFirstName(user.firstName);
-    setLastName(user.lastName);
-    setUsername(user.username);
-    setEmail(user.email);
-    setDescription(user.description || '');
   }, []);
 
   return (
     <ProfileContext.Provider
       value={{
         id,
-        firstName,
-        lastName,
+        name,
         username,
         email,
-        description,
+        bio,
         links,
         createLink,
         deleteLink,
@@ -172,13 +198,13 @@ export const ProfileProvider: React.FC = ({ children }) => {
         changeTitleLink,
         changeUrlLink,
         defineLinks,
-        defineUserFirstName,
-        defineUserLastName,
+        defineUserName,
         defineUserUsername,
         defineUserEmail,
-        defineUserDescription,
+        defineUserBio,
         defineUser,
         clearUser,
+        updateProfile,
       }}
     >
       {children}
