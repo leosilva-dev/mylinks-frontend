@@ -1,6 +1,6 @@
-export interface IRequestResult<T = any>{
+export interface IRequestResult<T = unknown>{
     data: T;
     token?: string;
     success: boolean;
-    messages?: string[]
+    message: string;
 }
