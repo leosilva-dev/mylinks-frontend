@@ -19,7 +19,7 @@ import { useAuthContext } from '../../shared/hooks/useAuthContext';
 
 export const SignIn: React.FC = () => {
   const navigate = useNavigate();
-  const { firstName } = useProfileContext();
+  const { name } = useProfileContext();
   const { authenticated, handleLogin, handleLogout } = useAuthContext();
 
   const [email, setEmail] = useState('');
@@ -44,7 +44,14 @@ export const SignIn: React.FC = () => {
   };
 
   const signIn = () => {
-    valide() && handleLogin(email, password) && goToProfile();
+    const userIsValid = valide();
+    if (userIsValid && handleLogin) {
+      handleLogin(email, password).then((response) => {
+        if (response) {
+          goToProfile();
+        }
+      });
+    }
   };
 
   return (
@@ -71,7 +78,6 @@ export const SignIn: React.FC = () => {
                 <Input
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  type="email"
                 />
               </FormControl>
               <FormControl id="password">
@@ -123,7 +129,7 @@ export const SignIn: React.FC = () => {
         <Stack align={'center'}>
           <Text
             fontSize={'lg'}
-          >{`Você já está conectado como ${firstName}, deseja se conetar à outra conta?`}</Text>
+          >{`Você já está conectado como ${name}, deseja se conetar à outra conta?`}</Text>
           <HStack>
             <Button
               size="md"
